@@ -63,14 +63,14 @@ h1{margin:0;font-size:clamp(44px,15vw,76px);font-weight:800;letter-spacing:3px;l
 .f i{width:100%;height:100%;border-radius:50%;margin:auto;background:#111;transform:scale(.6)}
 .f i.o{background:none}
 #toast{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:9}
-#toast.f{transform:rotate(180deg)}
+#toast.fl{transform:rotate(180deg)}
 .tb{display:flex;align-items:center;gap:10px;padding:8px 20px 8px 8px;border-radius:99px;background:linear-gradient(145deg,#2c2266f2,#15112ef2);border:2px solid var(--c,#fff);box-shadow:0 10px 28px #000a,0 0 22px color-mix(in srgb,var(--c),transparent 50%);font-weight:800;font-size:17px;opacity:0;white-space:nowrap}
 .tb em{font-style:normal;font-size:22px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--c)}
 .tb.show{animation:tin 1.6s cubic-bezier(.2,.9,.3,1.2) forwards}
 @keyframes tin{0%{opacity:0;transform:translateY(26px) scale(.6)}16%{opacity:1;transform:translateY(0) scale(1.07)}26%{transform:scale(1)}80%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-18px) scale(.95)}}
 #win{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:10;backdrop-filter:blur(6px)}
 .box{text-align:center;padding:28px 34px;border-radius:28px;background:linear-gradient(160deg,#3a2a7a,#15112e);border:2px solid var(--gold);box-shadow:0 0 50px #ffcb4766;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
-.box.f{transform:rotate(180deg);animation:none}
+.box.fl{transform:rotate(180deg);animation:none}
 @keyframes pop{from{transform:scale(.4);opacity:0}}
 #win h2{margin:0;font-size:36px}#win p{margin:6px 0 16px;font-size:18px}
 #win button{margin:4px;padding:10px 22px;border-radius:99px;background:var(--gold);color:#2a1d00;font-weight:800;font-size:17px}
@@ -121,7 +121,7 @@ const vib=n=>{try{navigator.vibrate&&!muted&&navigator.vibrate(n)}catch(e){}};
 async function wake(){try{await navigator.wakeLock.request('screen')}catch(e){}}
 function beep(f=520,d=.08,t='sine'){if(muted)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(.12,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 $('#snd').onclick=()=>{muted=!muted;$('#snd').textContent=muted?'🔇':'🔊'};
-function toast(t,ic='✨'){const w=$('#toast'),b=w.firstChild;w.classList.toggle('f',P[cur].c<2);b.style.setProperty('--c',COL[P[cur].c]);b.innerHTML=`<em>${ic}</em>${t}`;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
+function toast(t,ic='✨'){const w=$('#toast'),b=w.firstChild;w.classList.toggle('fl',P[cur].c<2);b.style.setProperty('--c',COL[P[cur].c]);b.innerHTML=`<em>${ic}</em>${t}`;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
 
 function buildBoard(){
   let h='';
@@ -162,7 +162,7 @@ function ui(){
 }
 function start(m){
   gid++;wake();mode=m;assist=m=='1v1'||m=='4b';
-  P=(m=='4p'||m=='4b'?[3,0,1,2]:[3,1]).map((c,k)=>({c,h:m=='4p'||m=='2p'||k==0}));
+  P=(m=='4p'||m=='4b'?[2,3,0,1]:[2,0]).map((c,k)=>({c,h:m=='4p'||m=='2p'||k==0}));
   toks=[0,1,2,3].map(()=>[-1,-1,-1,-1]);cur=0;sixes=0;busy=0;wait=0;
   buildBoard();buildDice();T=[[],[],[],[]];
   P.forEach(({c})=>[0,1,2,3].forEach(i=>{const e=document.createElement('div');e.className='tk';e.innerHTML=pawnHTML(c);e.onclick=()=>pick(c,i);$('#board').appendChild(e);T[c][i]=e}));
@@ -209,7 +209,7 @@ async function go(c,i){
 function next(){cur=(cur+1)%P.length;sixes=0;turn()}
 function win(){
   const{c,h}=P[cur];$('#wt').textContent=mode=='4p'||mode=='2p'?NAME[c]+' jeeta!':h?'Aap jeet gaye!':NAME[c]+' Bot jeeta';
-  $('#wb').classList.toggle('f',c<2&&h);$('#win').classList.remove('hide');beep(784,.3);
+  $('#wb').classList.toggle('fl',c<2&&h);$('#win').classList.remove('hide');beep(784,.3);
   for(let i=0;i<70;i++){const d=document.createElement('i');d.className='cf';d.style.cssText=`left:${Math.random()*100}vw;background:${COL[i%4]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()}s`;document.body.appendChild(d);setTimeout(()=>d.remove(),5500)}
 }
 document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>start(b.dataset.m));
