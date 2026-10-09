@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>Ludo Royale</title>
+<title>SRB Ludo</title>
 <meta name="theme-color" content="#15112e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--r:#ef476f;--g:#06c28b;--y:#ffc233;--b:#3a86ff;--gold:#ffcb47;--s:min(94vw,calc(100dvh - 270px),560px)}
+:root{--r:#ef476f;--g:#06c28b;--y:#ffc233;--b:#3a86ff;--gold:#ffcb47;--s:min(94vw,calc(100dvh - 320px),560px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(120% 80% at 50% 0,#3a2a7a 0,#15112e 60%) #15112e;color:#fff;font-family:'Baloo 2',system-ui,sans-serif}
-button{font:inherit;color:inherit;border:0;cursor:pointer}
+button{touch-action:manipulation;font:inherit;color:inherit;border:0;cursor:pointer}
 section{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
 .hide{display:none!important}
 #menu{justify-content:center;gap:11px}
-h1{margin:0;font-size:clamp(56px,18vw,92px);font-weight:800;letter-spacing:4px;line-height:1;text-shadow:0 2px 0 #ef476f,0 4px 0 #ffc233,0 6px 0 #06c28b,0 8px 0 #3a86ff,0 18px 24px #0008}
+h1{margin:0;font-size:clamp(44px,15vw,76px);font-weight:800;letter-spacing:3px;line-height:1;text-shadow:0 2px 0 #ef476f,0 4px 0 #ffc233,0 6px 0 #06c28b,0 8px 0 #3a86ff,0 18px 24px #0008}
 .sub{opacity:.75;margin:0;font-size:16px}
 .pawns{display:flex;gap:14px;height:62px;align-items:flex-end}
 .pawns .pawn{position:relative;inset:auto;width:44px;height:44px;animation:bob 1.6s ease-in-out infinite}
@@ -32,10 +32,10 @@ h1{margin:0;font-size:clamp(56px,18vw,92px);font-weight:800;letter-spacing:4px;l
 .dev{font-size:15px;opacity:.8;letter-spacing:.5px;margin-top:4px}.dev b{color:var(--gold)}
 /* game */
 #game{justify-content:space-between;padding-top:calc(env(safe-area-inset-top) + 6px)}
-.bar{width:min(560px,100%);display:flex;align-items:center;justify-content:space-between;min-height:104px}
-.dz{display:flex;align-items:center;gap:8px;transition:opacity .3s}
+.bar{width:min(560px,100%);display:flex;align-items:center;justify-content:space-between;min-height:130px}
+.dz{display:flex;flex-direction:column;align-items:center;gap:5px;transition:opacity .3s}
 .dz.flip{transform:rotate(180deg)}
-.lab{font-weight:800;font-size:15px;min-width:34px;text-align:center;padding:2px 6px;border-radius:10px;background:#ffffff1a}
+.lab{font-weight:800;font-size:14px;min-width:84px;text-align:center;padding:1px 6px;border-radius:10px;background:#ffffff1a;line-height:1.25}.lab small{display:block;font-size:11px;color:var(--gold);white-space:nowrap;min-height:14px}
 .mid{display:flex;gap:10px}
 .ib{width:44px;height:44px;border-radius:14px;background:#ffffff1a;font-size:20px}
 #stage{width:100%;display:grid;place-items:center;flex:1}
@@ -62,10 +62,12 @@ h1{margin:0;font-size:clamp(56px,18vw,92px);font-weight:800;letter-spacing:4px;l
 .f{position:absolute;inset:0;background:linear-gradient(145deg,#fff,#dcdcdc);border-radius:9px;display:grid;grid:repeat(3,1fr)/repeat(3,1fr);padding:6px;backface-visibility:hidden;box-shadow:inset 0 0 6px #0003}
 .f i{width:100%;height:100%;border-radius:50%;margin:auto;background:#111;transform:scale(.6)}
 .f i.o{background:none}
-#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.8);background:#000d;padding:8px 20px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none;z-index:9;font-weight:700;white-space:nowrap}
-#toast.s{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#toast.s.f{transform:translate(-50%,-50%) rotate(180deg)}
-#toast.f:not(.s){transform:translate(-50%,-50%) rotate(180deg) scale(.8)}
+#toast{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:9}
+#toast.f{transform:rotate(180deg)}
+.tb{display:flex;align-items:center;gap:10px;padding:8px 20px 8px 8px;border-radius:99px;background:linear-gradient(145deg,#2c2266f2,#15112ef2);border:2px solid var(--c,#fff);box-shadow:0 10px 28px #000a,0 0 22px color-mix(in srgb,var(--c),transparent 50%);font-weight:800;font-size:17px;opacity:0;white-space:nowrap}
+.tb em{font-style:normal;font-size:22px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--c)}
+.tb.show{animation:tin 1.6s cubic-bezier(.2,.9,.3,1.2) forwards}
+@keyframes tin{0%{opacity:0;transform:translateY(26px) scale(.6)}16%{opacity:1;transform:translateY(0) scale(1.07)}26%{transform:scale(1)}80%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-18px) scale(.95)}}
 #win{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:10;backdrop-filter:blur(6px)}
 .box{text-align:center;padding:28px 34px;border-radius:28px;background:linear-gradient(160deg,#3a2a7a,#15112e);border:2px solid var(--gold);box-shadow:0 0 50px #ffcb4766;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
 .box.f{transform:rotate(180deg);animation:none}
@@ -80,10 +82,10 @@ h1{margin:0;font-size:clamp(56px,18vw,92px);font-weight:800;letter-spacing:4px;l
 </head>
 <body>
 <section id="menu">
-  <h1>LUDO</h1>
-  <p class="sub">Royale &middot; 3D Ludo</p>
+  <h1>SRB LUDO</h1>
+  <p class="sub">Asli 3D Ludo, dosto ke saath</p>
   <div class="pawns" id="mp"></div>
-  <button class="mode" style="--c:var(--r)" data-m="1v1"><i>🤖</i><span><b>Bot ke saath</b><small>Aap vs 1 Bot</small></span></button>
+  <button class="mode" style="--c:var(--r)" data-m="1v1"><i>🤖</i><span><b>Bot ke saath</b><small>Aap (neeche) vs 1 Bot</small></span></button>
   <button class="mode" style="--c:var(--b)" data-m="2p"><i>👫</i><span><b>2 Players (Local)</b><small>Aamne-saamne, ek phone par</small></span></button>
   <button class="mode" style="--c:var(--g)" data-m="4p"><i>👨‍👩‍👧‍👦</i><span><b>4 Players (Local)</b><small>Chaaron dost ek phone par</small></span></button>
   <button class="mode" style="--c:var(--y)" data-m="4b"><i>🎲</i><span><b>4 Players + Bots</b><small>Aap aur 3 Bots</small></span></button>
@@ -97,7 +99,7 @@ h1{margin:0;font-size:clamp(56px,18vw,92px);font-weight:800;letter-spacing:4px;l
   <div id="stage"><div id="board"></div></div>
   <div class="bar"><div class="dz" id="dz3"></div><div class="mid"><button class="ib" id="back" aria-label="Menu">☰</button><button class="ib" id="snd" aria-label="Sound">🔊</button></div><div class="dz" id="dz2"></div></div>
 </section>
-<div id="toast"></div>
+<div id="toast"><div class="tb"></div></div>
 <div id="win" class="hide"><div class="box" id="wb"><h2 id="wt"></h2><p>Jeet mubarak ho! 🎉</p><button id="again">Dobara khelein</button><button class="g" id="home">Menu</button></div></div>
 
 <script>
@@ -115,9 +117,11 @@ const pawnHTML=c=>`<div class="pawn" style="--c:${COL[c]}"></div>`;
 const wt=async ms=>{const g=gid;await sleep(ms);return g==gid};
 $('#mp').innerHTML=[0,1,2,3].map(pawnHTML).join('');
 
+const vib=n=>{try{navigator.vibrate&&!muted&&navigator.vibrate(n)}catch(e){}};
+async function wake(){try{await navigator.wakeLock.request('screen')}catch(e){}}
 function beep(f=520,d=.08,t='sine'){if(muted)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(.12,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 $('#snd').onclick=()=>{muted=!muted;$('#snd').textContent=muted?'🔇':'🔊'};
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.toggle('f',P[cur].c<2);e.classList.add('s');clearTimeout(e.t);e.t=setTimeout(()=>e.classList.remove('s'),1300)}
+function toast(t,ic='✨'){const w=$('#toast'),b=w.firstChild;w.classList.toggle('f',P[cur].c<2);b.style.setProperty('--c',COL[P[cur].c]);b.innerHTML=`<em>${ic}</em>${t}`;b.classList.remove('show');void b.offsetWidth;b.classList.add('show')}
 
 function buildBoard(){
   let h='';
@@ -140,7 +144,7 @@ function render(){
 function buildDice(){
   [0,1,2,3].forEach(c=>{
     const z=$('#dz'+c),on=P.some(p=>p.c==c);z.style.visibility=on?'visible':'hidden';
-    z.innerHTML=`<div class="lab"></div><div class="dwrap" style="--c:${COL[c]}"><div class="dice">${[1,2,3,4,5,6].map(n=>`<div class="f" style="transform:${TF[n-1]} translateZ(26px)">${Array.from({length:9},(_,k)=>`<i class="${PIPS[n].includes(k)?'':'o'}"></i>`).join('')}</div>`).join('')}</div></div>`;
+    z.innerHTML=`<div class="dwrap" style="--c:${COL[c]}"><div class="dice">${[1,2,3,4,5,6].map(n=>`<div class="f" style="transform:${TF[n-1]} translateZ(26px)">${Array.from({length:9},(_,k)=>`<i class="${PIPS[n].includes(k)?'':'o'}"></i>`).join('')}</div>`).join('')}</div></div><div class="lab"></div>`;
     z.querySelector('.dwrap').onclick=()=>{if(P[cur].c==c&&P[cur].h&&!busy&&!wait)roll()};
     SP[c]=0;setDice(c,1,true);
   });
@@ -153,12 +157,12 @@ function setDice(c,v,instant){
 }
 function ui(){
   P.forEach(({c,h},k)=>{const z=$('#dz'+c),on=k==cur;z.style.opacity=on?1:.45;
-    z.querySelector('.lab').textContent='🏠'+toks[c].filter(p=>p==56).length;
+    const tip=on&&h?(wait?'Goti chunein 👆':busy?'':'Dice roll karein'):'';z.querySelector('.lab').innerHTML='🏠 '+toks[c].filter(p=>p==56).length+`<small>${tip}</small>`;
     z.querySelector('.dwrap').classList.toggle('pulse',on&&h&&!busy&&!wait)});
 }
 function start(m){
-  gid++;mode=m;assist=m=='1v1'||m=='4b';
-  P=m=='4p'||m=='4b'?[0,1,2,3].map(c=>({c,h:m=='4p'||c==0})):[0,2].map(c=>({c,h:m=='2p'||c==0}));
+  gid++;wake();mode=m;assist=m=='1v1'||m=='4b';
+  P=(m=='4p'||m=='4b'?[3,0,1,2]:[3,1]).map((c,k)=>({c,h:m=='4p'||m=='2p'||k==0}));
   toks=[0,1,2,3].map(()=>[-1,-1,-1,-1]);cur=0;sixes=0;busy=0;wait=0;
   buildBoard();buildDice();T=[[],[],[],[]];
   P.forEach(({c})=>[0,1,2,3].forEach(i=>{const e=document.createElement('div');e.className='tk';e.innerHTML=pawnHTML(c);e.onclick=()=>pick(c,i);$('#board').appendChild(e);T[c][i]=e}));
@@ -177,13 +181,13 @@ function dicePick(){
 const legal=(c,v)=>toks[c].map((p,i)=>(p<0?v==6:p+v<=56)?i:-1).filter(i=>i>=0);
 async function roll(){
   if(busy||wait)return;busy=1;ui();const c=P[cur].c;
-  val=dicePick();setDice(c,val);beep(300,.12,'square');
+  val=dicePick();setDice(c,val);vib(30);beep(300,.12,'square');
   if(!await wt(850))return;beep(480,.08);
-  if(val==6&&++sixes==3){toast('Teen 6! Baari gayi');if(!await wt(900))return;return next()}
+  if(val==6&&++sixes==3){toast('Teen 6! Baari gayi','🎲');if(!await wt(900))return;return next()}
   const m=legal(c,val);
-  if(!m.length){toast('Koi chaal nahi');if(!await wt(800))return;return val==6?turn():next()}
+  if(!m.length){toast('Koi chaal nahi','🚫');if(!await wt(800))return;return val==6?turn():next()}
   if(!P[cur].h){if(!await wt(450))return;return go(c,m[Math.random()*m.length|0])}
-  if(m.length==1){if(!await wt(350))return;return go(c,m[0])}
+  if(new Set(m.map(i=>toks[c][i])).size==1){if(!await wt(350))return;return go(c,m[0])}
   wait=1;busy=0;m.forEach(i=>T[c][i].classList.add('can'));ui();
 }
 function pick(c,i){if(wait&&P[cur].c==c&&T[c][i].classList.contains('can')){wait=0;go(c,i)}}
@@ -195,8 +199,8 @@ async function go(c,i){
   const p=toks[c][i];
   if(p<=50){const idx=(START[c]+p)%52;if(!SAFE.has(idx))P.forEach(({c:o})=>{if(o!=c)toks[o].forEach((q,j)=>{if(q>=0&&q<=50&&(START[o]+q)%52==idx){toks[o][j]=-1;cap=true}})})}
   render();
-  if(cap){beep(160,.3,'sawtooth');toast('Goti kat gayi! ⚔️');if(!await wt(600))return}
-  if(p==56){beep(880,.25);toast('Goti ghar pahunchi! 🏠');if(!await wt(500))return}
+  if(cap){vib([60,40,90]);beep(160,.3,'sawtooth');toast('Goti kat gayi!','⚔️');if(!await wt(600))return}
+  if(p==56){beep(880,.25);toast('Goti ghar pahunchi!','🏠');if(!await wt(500))return}
   ui();
   if(toks[c].every(x=>x==56))return win();
   if(val==6||cap||p==56)return turn();
@@ -205,7 +209,7 @@ async function go(c,i){
 function next(){cur=(cur+1)%P.length;sixes=0;turn()}
 function win(){
   const{c,h}=P[cur];$('#wt').textContent=mode=='4p'||mode=='2p'?NAME[c]+' jeeta!':h?'Aap jeet gaye!':NAME[c]+' Bot jeeta';
-  $('#wb').classList.toggle('f',c<2&&P[cur].h&&mode!='1v1'&&mode!='4b');$('#win').classList.remove('hide');beep(784,.3);
+  $('#wb').classList.toggle('f',c<2&&h);$('#win').classList.remove('hide');beep(784,.3);
   for(let i=0;i<70;i++){const d=document.createElement('i');d.className='cf';d.style.cssText=`left:${Math.random()*100}vw;background:${COL[i%4]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()}s`;document.body.appendChild(d);setTimeout(()=>d.remove(),5500)}
 }
 document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>start(b.dataset.m));
